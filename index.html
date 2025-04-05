@@ -12,22 +12,28 @@
         <h1>Flashcards Website</h1>
     </header>
     <main>
-        <nav id="breadcrumb">
+        <nav id="breadcrumb" role="navigation" aria-label="Breadcrumb navigation">
             <!-- Breadcrumb navigation will be dynamically generated here -->
         </nav>
-        <div id="content">
+        <section id="content">
             <!-- Folder structure and flashcards will be dynamically generated here -->
-        </div>
+        </section>
     </main>
     <footer>
         <button id="add-folder"><i class="fas fa-folder-plus"></i> Add Folder</button>
         <button id="add-flashcard" disabled><i class="fas fa-plus"></i> Add Flashcard</button>
     </footer>
-    <div id="context-menu" class="hidden">
-        <button id="delete-item">Delete</button>
+    <aside id="context-menu" class="hidden" role="menu">
+        <button id="delete-item" role="menuitem">Delete</button>
+    </aside>
+    <div id="popup" class="popup hidden">
+        <div class="popup-content">
+            <span class="popup-message"></span>
+            <button id="popup-close" class="popup-close">Close</button>
+        </div>
     </div>
-    <script src="/assets/js/flashcards.js"></script>
-    <script src="/assets/js/navigation.js"></script>
-    <script src="/assets/js/main.js"></script>
+    <script src="assets/js/flashcards.js"></script>
+    <script src="assets/js/navigation.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>

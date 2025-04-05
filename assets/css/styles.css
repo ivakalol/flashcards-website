@@ -11,8 +11,10 @@ body {
 header {
     background-color: #007bff;
     color: white;
-    padding: 15px 20px;
+    padding: 8px 12px; /* Reduced padding */
     text-align: center;
+    font-size: 1.2em; /* Smaller font size */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
 }
 
 main {
@@ -23,27 +25,27 @@ main {
     padding: 20px;
 }
 
-#breadcrumb {
+nav {
     width: 80%;
     margin-bottom: 20px;
 }
 
-#breadcrumb a {
+nav a {
     text-decoration: none;
     color: #007bff;
     margin: 0 5px;
 }
 
-#breadcrumb a:hover {
+nav a:hover {
     text-decoration: underline;
 }
 
-#content {
+section {
     width: 80%;
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Enhance shadow for a pleasant look */
 }
 
 .folder, .flashcard {
@@ -53,14 +55,17 @@ main {
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px; /* Slightly more rounded corners */
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; /* Smooth transition for shadow and transform */
     position: relative;
+    user-select: none; /* Prevent text selection */
 }
 
 .folder:hover, .flashcard:hover {
     background-color: #f0f0f0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
 }
 
 .folder {
@@ -81,11 +86,13 @@ main {
 
 footer {
     background-color: #007bff;
-    padding: 15px 20px;
+    padding: 8px 12px; /* Reduced padding */
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 1.2em; /* Smaller font size */
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
 }
 
 footer button {
@@ -99,6 +106,7 @@ footer button {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; /* Smooth transition for background, shadow, and transform */
 }
 
 footer button i {
@@ -107,6 +115,8 @@ footer button i {
 
 footer button:hover {
     background-color: #003d80;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
 }
 
 #context-menu {
@@ -116,6 +126,14 @@ footer button:hover {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.3s, transform 0.3s; /* Smooth fade-in and scale-in */
+}
+
+#context-menu.show {
+    opacity: 1;
+    transform: scale(1);
 }
 
 #context-menu button {
@@ -125,22 +143,83 @@ footer button:hover {
     width: 100%;
     text-align: left;
     cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for background color */
 }
 
 #context-menu button:hover {
     background-color: #f0f0f0;
 }
 
+.delete-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ff0000;
+    font-size: 1.2em;
+    margin-left: 10px;
+}
+
+.delete-button i {
+    pointer-events: none; /* Prevent icon from interfering with button click */
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.popup.show {
+    opacity: 0.8;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.popup-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.popup-message {
+    margin-bottom: 20px;
+}
+
+.popup-close {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.popup-close:hover {
+    background-color: #0056b3;
+}
+
 @media (max-width: 768px) {
-    #content {
+    section {
         width: 95%;
     }
 
     footer {
-        flex-direction: column;
+        flex-direction: row; /* Ensure buttons are in a row */
+        font-size: 1em; /* Smaller font size for mobile */
     }
 
     footer button {
-        margin: 10px 0;
+        margin: 10px 5px; /* Add more space between buttons */
+        width: auto; /* Adjust button width */
     }
 }

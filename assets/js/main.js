@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const breadcrumb = document.getElementById('breadcrumb');
     const contextMenu = document.getElementById('context-menu');
     const deleteItemButton = document.getElementById('delete-item');
+    const popup = document.getElementById('popup');
+    const popupMessage = document.querySelector('.popup-message');
+    const popupClose = document.getElementById('popup-close');
 
     let currentFolder = {
         name: 'Home',
@@ -29,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             currentFolder.subFolders.push(folder);
             renderContent(currentFolder);
+            showPopup('Folder created successfully');
         }
     });
 
@@ -44,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             currentFolder.flashcards.push(flashcard);
             renderContent(currentFolder);
+            showPopup('Flashcard created successfully');
         }
     });
 
@@ -77,36 +82,60 @@ document.addEventListener('DOMContentLoaded', () => {
         folder.subFolders.forEach(subFolder => {
             const folderDiv = document.createElement('div');
             folderDiv.classList.add('folder');
-            folderDiv.innerHTML = `<i class="fas fa-folder"></i> <span>${subFolder.name}</span>`;
+            folderDiv.innerHTML = `<i class="fas fa-folder"></i> <span>${subFolder.name}</span> <button class="delete-button hidden"><i class="fas fa-trash-alt"></i></button>`;
+            folderDiv.setAttribute('tabindex', '0');
+            folderDiv.setAttribute('role', 'button');
             folderDiv.addEventListener('click', () => {
                 currentFolder = subFolder;
                 renderContent(subFolder);
+            });
+            folderDiv.querySelector('.delete-button').addEventListener('click', (event) => {
+                event.stopPropagation();
+                deleteItem(subFolder);
             });
             folderDiv.addEventListener('contextmenu', (event) => {
                 event.preventDefault();
                 showContextMenu(event, subFolder, folderDiv);
             });
-            folderDiv.addEventListener('touchstart', handleTouchStart, { passive: false });
+            folderDiv.addEventListener('touchstart', (event) => handleTouchStart(event, folderDiv), { passive: false });
+            folderDiv.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    folderDiv.click();
+                }
+            });
             content.appendChild(folderDiv);
         });
 
         // Render flashcards
         folder.flashcards.forEach(flashcard => {
-            const flashcardDiv = document.createElement('div');
+            const flashcardDiv = document.createElement('article');
             flashcardDiv.classList.add('flashcard');
             flashcardDiv.innerHTML = `
                 <div class="flashcard-title">${flashcard.title}</div>
-                <div class="flashcard-description hidden">${flashcard.description}</div>
-                <button class="delete-button hidden">Delete</button>
+                <div class="flashcard-description hidden" aria-label="Flashcard description">${flashcard.description}</div>
+                <button class="delete-button hidden"><i class="fas fa-trash-alt"></i></button>
             `;
+            flashcardDiv.setAttribute('tabindex', '0');
+            flashcardDiv.setAttribute('role', 'button');
             flashcardDiv.addEventListener('click', () => {
                 flashcardDiv.querySelector('.flashcard-description').classList.toggle('hidden');
+            });
+            flashcardDiv.querySelector('.delete-button').addEventListener('click', (event) => {
+                event.stopPropagation();
+                deleteItem(flashcard);
             });
             flashcardDiv.addEventListener('contextmenu', (event) => {
                 event.preventDefault();
                 showContextMenu(event, flashcard, flashcardDiv);
             });
-            flashcardDiv.addEventListener('touchstart', handleTouchStart, { passive: false });
+            flashcardDiv.addEventListener('touchstart', (event) => handleTouchStart(event, flashcardDiv), { passive: false });
+            flashcardDiv.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    flashcardDiv.click();
+                }
+            });
             content.appendChild(flashcardDiv);
         });
 
@@ -118,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentItem = item;
         const deleteButton = element.querySelector('.delete-button');
         deleteButton.classList.remove('hidden');
+        contextMenu.classList.add('show'); // Add show class for animation
         deleteButton.style.top = `${event.clientY}px`;
         deleteButton.style.left = `${event.clientX}px`;
 
@@ -136,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             renderContent(currentFolder);
+            showPopup('Item deleted successfully');
         });
     }
 
@@ -150,16 +181,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function hideContextMenu() {
         const deleteButtons = document.querySelectorAll('.delete-button');
         deleteButtons.forEach(button => button.classList.add('hidden'));
+        contextMenu.classList.remove('show'); // Remove show class for animation
     }
 
     // Handle touchstart for mobile
     let touchTimeout;
-    function handleTouchStart(event) {
+    function handleTouchStart(event, element) {
         touchTimeout = setTimeout(() => {
             event.preventDefault();
-            showContextMenu(event, event.currentTarget, event.currentTarget);
+            showContextMenu(event, event.currentTarget, element);
         }, 500);
-        event.currentTarget.addEventListener('touchend', handleTouchEnd);
+        element.addEventListener('touchend', handleTouchEnd);
     }
 
     // Handle touchend for mobile
@@ -167,4 +199,39 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTimeout(touchTimeout);
         event.currentTarget.removeEventListener('touchend', handleTouchEnd);
     }
+
+    // Delete item function
+    function deleteItem(item) {
+        if (item.subFolders !== undefined) {
+            // It's a folder
+            const index = item.parent.subFolders.indexOf(item);
+            if (index > -1) {
+                item.parent.subFolders.splice(index, 1);
+            }
+        } else {
+            // It's a flashcard
+            const index = item.parent.flashcards.indexOf(item);
+            if (index > -1) {
+                item.parent.flashcards.splice(index, 1);
+            }
+        }
+        renderContent(currentFolder);
+    }
+
+    // Show popup message
+    function showPopup(message) {
+        popupMessage.textContent = message;
+        popup.classList.remove('hidden');
+        popup.classList.add('show');
+        setTimeout(() => {
+            popup.classList.remove('show');
+            popup.classList.add('hidden');
+        }, 2500);
+    }
+    
+
+    // Close popup message
+    popupClose.addEventListener('click', () => {
+        popup.classList.remove('show');
+    });
 });
