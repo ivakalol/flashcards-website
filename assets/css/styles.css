@@ -40,6 +40,11 @@ nav a:hover {
     text-decoration: underline;
 }
 
+nav a:focus {
+    outline: 3px solid #0056b3; /* Add focus outline */
+    outline-offset: 4px;
+}
+
 section {
     width: 80%;
     background-color: white;
@@ -66,6 +71,11 @@ section {
     background-color: #f0f0f0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
     transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.folder:focus, .flashcard:focus {
+    outline: 3px solid #0056b3; /* Add focus outline */
+    outline-offset: 4px;
 }
 
 .folder {
@@ -119,6 +129,11 @@ footer button:hover {
     transform: translateY(-2px); /* Slight lift on hover */
 }
 
+footer button:focus {
+    outline: 3px solid #003d80; /* Add focus outline */
+    outline-offset: 4px;
+}
+
 #context-menu {
     position: absolute;
     background-color: white;
@@ -148,6 +163,11 @@ footer button:hover {
 
 #context-menu button:hover {
     background-color: #f0f0f0;
+}
+
+#context-menu button:focus {
+    outline: 3px solid #0056b3; /* Add focus outline */
+    outline-offset: 4px;
 }
 
 .delete-button {
@@ -206,6 +226,11 @@ footer button:hover {
 
 .popup-close:hover {
     background-color: #0056b3;
+}
+
+.popup-close:focus {
+    outline: 3px solid #0056b3; /* Add focus outline */
+    outline-offset: 4px;
 }
 
 @media (max-width: 768px) {
