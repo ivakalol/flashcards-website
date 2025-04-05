@@ -221,8 +221,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Show popup message
     function showPopup(message) {
         popupMessage.textContent = message;
+        popup.classList.remove('hidden');
         popup.classList.add('show');
+        setTimeout(() => {
+            popup.classList.remove('show');
+            popup.classList.add('hidden');
+        }, 2500);
     }
+    
 
     // Close popup message
     popupClose.addEventListener('click', () => {
