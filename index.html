@@ -2,10 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Flashcards Website</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        /* Make sure the content fits within the safe area on iPad */
+        body {
+            padding: env(safe-area-inset);
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -18,10 +25,20 @@
         <section id="content">
             <!-- Folder structure and flashcards will be dynamically generated here -->
         </section>
+        <!-- Move the buttons above the footer -->
+        <div class="action-buttons">
+            <button id="add-folder"><i class="fas fa-folder-plus"></i> Add Folder</button>
+            <button id="add-flashcard" disabled><i class="fas fa-plus"></i> Add Flashcard</button>
+        </div>
     </main>
     <footer>
-        <button id="add-folder"><i class="fas fa-folder-plus"></i> Add Folder</button>
-        <button id="add-flashcard" disabled><i class="fas fa-plus"></i> Add Flashcard</button>
+        <div class="footer-buttons">
+            <button id="settings-button"><i class="fas fa-cog"></i> Settings</button>
+            <button id="info-button"><i class="fas fa-info-circle"></i> Info</button>
+        </div>
+        <div class="footer-text">
+            © 2023 Flashcards Website made by Ivaka
+        </div>
     </footer>
     <aside id="context-menu" class="hidden" role="menu">
         <button id="delete-item" role="menuitem">Delete</button>
@@ -40,7 +57,17 @@
             <button id="modal-close" class="modal-close">Close</button>
         </div>
     </div>
-    <script src="assets/js/flashcards.js"></script>
+    <!-- Info Modal -->
+    <div id="info-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>About Flashcards Website</h2>
+            <p>This website was created to help users organize and study flashcards efficiently.</p>
+            <p>Developed by Ivaka, the website offers functionality to create folders and flashcards, and easily navigate through them.</p>
+            <p>Technologies used include HTML, CSS, and JavaScript.</p>
+            <button id="info-modal-close" class="modal-close">Close</button>
+        </div>
+    </div>
+    <script src="assets/js/DataBase.js"></script>
     <script src="assets/js/navigation.js"></script>
     <script src="assets/js/main.js"></script>
 </body>

@@ -1,19 +1,34 @@
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #0056b3;
+    --background-color: #f4f4f4;
+    --card-background: #fff9c4;
+    --folder-background: #e0f7fa;
+    --text-color: #333;
+    --font-family: 'Roboto', sans-serif;
+    --line-height: 1.6;
+    --font-size: 16px;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+    line-height: var(--line-height);
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: var(--background-color);
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
 header {
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: white;
     padding: 8px 12px; /* Reduced padding */
     text-align: center;
-    font-size: 1.2em; /* Smaller font size */
+    font-size: 1.5em; /* Slightly larger font size */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
 }
 
@@ -32,8 +47,9 @@ nav {
 
 nav a {
     text-decoration: none;
-    color: #007bff;
+    color: var(--primary-color);
     margin: 0 5px;
+    font-weight: 700; /* Bold font for better visibility */
 }
 
 nav a:hover {
@@ -41,7 +57,7 @@ nav a:hover {
 }
 
 nav a:focus {
-    outline: 3px solid #0056b3; /* Add focus outline */
+    outline: 3px solid var(--secondary-color); /* Add focus outline */
     outline-offset: 4px;
 }
 
@@ -74,16 +90,16 @@ section {
 }
 
 .folder:focus, .flashcard:focus {
-    outline: 3px solid #0056b3; /* Add focus outline */
+    outline: 3px solid var(--secondary-color); /* Add focus outline */
     outline-offset: 4px;
 }
 
 .folder {
-    background-color: #e0f7fa;
+    background-color: var(--folder-background);
 }
 
 .flashcard {
-    background-color: #fff9c4;
+    background-color: var(--card-background);
 }
 
 .flashcard-title {
@@ -94,19 +110,14 @@ section {
     display: none;
 }
 
-footer {
-    background-color: #007bff;
-    padding: 8px 12px; /* Reduced padding */
-    text-align: center;
+.action-buttons {
     display: flex;
     justify-content: center;
-    align-items: center;
-    font-size: 1.2em; /* Smaller font size */
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    margin: 20px 0;
 }
 
-footer button {
-    background-color: #0056b3;
+.action-buttons button {
+    background-color: var(--secondary-color);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -117,21 +128,74 @@ footer button {
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; /* Smooth transition for background, shadow, and transform */
+    font-size: 1em;
 }
 
-footer button i {
+.action-buttons button i {
     margin-right: 5px;
 }
 
-footer button:hover {
+.action-buttons button:hover {
     background-color: #003d80;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
     transform: translateY(-2px); /* Slight lift on hover */
 }
 
-footer button:focus {
+.action-buttons button:focus {
     outline: 3px solid #003d80; /* Add focus outline */
     outline-offset: 4px;
+}
+
+footer {
+    background-color: var(--primary-color);
+    padding: 8px 12px; /* Reduced padding */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1em; /* Adjusted font size */
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    color: white;
+}
+
+.footer-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.footer-buttons button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; /* Smooth transition for background, shadow, and transform */
+    font-size: 1em;
+}
+
+.footer-buttons button i {
+    margin-right: 5px;
+}
+
+.footer-buttons button:hover {
+    background-color: #003d80;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.footer-buttons button:focus {
+    outline: 3px solid #003d80; /* Add focus outline */
+    outline-offset: 4px;
+}
+
+.footer-text {
+    font-size: 0.9em;
 }
 
 #context-menu {
@@ -166,7 +230,7 @@ footer button:focus {
 }
 
 #context-menu button:focus {
-    outline: 3px solid #0056b3; /* Add focus outline */
+    outline: 3px solid var(--secondary-color); /* Add focus outline */
     outline-offset: 4px;
 }
 
@@ -215,7 +279,7 @@ footer button:focus {
 }
 
 .popup-close {
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -225,12 +289,80 @@ footer button:focus {
 }
 
 .popup-close:hover {
-    background-color: #0056b3;
+    background-color: var(--secondary-color);
 }
 
 .popup-close:focus {
-    outline: 3px solid #0056b3; /* Add focus outline */
+    outline: 3px solid var(--secondary-color); /* Add focus outline */
     outline-offset: 4px;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+}
+ 
+.modal.show {
+    opacity: 0.9;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.modal-save, .modal-close {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px;
+    transition: background-color 0.3s;
+}
+
+.modal-save:hover, .modal-close:hover {
+    background-color: var(--secondary-color);
+}
+
+.modal-save:focus, .modal-close:focus {
+    outline: 3px solid var(--secondary-color); /* Add focus outline */
+    outline-offset: 4px;
+}
+
+@media (max-width: 1024px) {
+    main {
+        padding: 10px;
+    }
+
+    section {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .action-buttons button {
+        margin: 10px 0;
+        width: 100%;
+    }
 }
 
 @media (max-width: 768px) {

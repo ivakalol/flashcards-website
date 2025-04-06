@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const popup = document.getElementById('popup');
     const popupMessage = document.querySelector('.popup-message');
     const popupClose = document.getElementById('popup-close');
+    const infoButton = document.getElementById('info-button');
+    const infoModal = document.getElementById('info-modal');
+    const infoModalClose = document.getElementById('info-modal-close');
 
     let currentFolder = {
         name: 'Home',
@@ -23,7 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add folder functionality
     addFolderButton.addEventListener('click', () => {
         const folderName = prompt('Enter folder name:');
-        if (folderName) {
+        if (currentFolder.subFolders.some(f => f.name === folderName)) {
+            showPopup('Folder name already exists');
+            return;
+          }
+        else if (folderName) {
             const folder = {
                 name: folderName,
                 subFolders: [],
@@ -33,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentFolder.subFolders.push(folder);
             renderContent(currentFolder);
             showPopup('Folder created successfully');
+            focusNewItem();
         }
     });
 
@@ -49,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentFolder.flashcards.push(flashcard);
             renderContent(currentFolder);
             showPopup('Flashcard created successfully');
+            focusNewItem();
         }
     });
 
@@ -79,10 +88,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Render subfolders
-        folder.subFolders.forEach(subFolder => {
+        folder.subFolders.forEach((subFolder, index) => {
             const folderDiv = document.createElement('div');
             folderDiv.classList.add('folder');
-            folderDiv.innerHTML = `<i class="fas fa-folder"></i> <span>${subFolder.name}</span> <button class="delete-button hidden"><i class="fas fa-trash-alt"></i></button>`;
+            folderDiv.innerHTML = `<i class="fas fa-folder"></i> <span>${subFolder.name}</span> <button class="delete-button hidden" aria-label="Delete Folder"><i class="fas fa-trash-alt"></i></button>`;
             folderDiv.setAttribute('tabindex', '0');
             folderDiv.setAttribute('role', 'button');
             folderDiv.addEventListener('click', () => {
@@ -105,16 +114,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             content.appendChild(folderDiv);
+
+            // Focus newly added folder
+            if (index === folder.subFolders.length - 1) {
+                folderDiv.focus();
+            }
         });
 
         // Render flashcards
-        folder.flashcards.forEach(flashcard => {
+        folder.flashcards.forEach((flashcard, index) => {
             const flashcardDiv = document.createElement('article');
             flashcardDiv.classList.add('flashcard');
             flashcardDiv.innerHTML = `
                 <div class="flashcard-title">${flashcard.title}</div>
                 <div class="flashcard-description hidden" aria-label="Flashcard description">${flashcard.description}</div>
-                <button class="delete-button hidden"><i class="fas fa-trash-alt"></i></button>
+                <button class="delete-button hidden" aria-label="Delete Flashcard"><i class="fas fa-trash-alt"></i></button>
             `;
             flashcardDiv.setAttribute('tabindex', '0');
             flashcardDiv.setAttribute('role', 'button');
@@ -137,6 +151,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             content.appendChild(flashcardDiv);
+
+            // Focus newly added flashcard
+            if (index === folder.flashcards.length - 1) {
+                flashcardDiv.focus();
+            }
         });
 
         addFlashcardButton.disabled = false;
@@ -148,8 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const deleteButton = element.querySelector('.delete-button');
         deleteButton.classList.remove('hidden');
         contextMenu.classList.add('show'); // Add show class for animation
-        deleteButton.style.top = `${event.clientY}px`;
-        deleteButton.style.left = `${event.clientX}px`;
+        deleteButton.style.top = `${Math.min(event.clientY, window.innerHeight - 40)}px`;
+        deleteButton.style.left = `${Math.min(event.clientX, window.innerWidth - 100)}px`;
 
         deleteButton.addEventListener('click', () => {
             if (currentItem.subFolders !== undefined) {
@@ -228,10 +247,31 @@ document.addEventListener('DOMContentLoaded', () => {
             popup.classList.add('hidden');
         }, 2500);
     }
-    
 
     // Close popup message
     popupClose.addEventListener('click', () => {
         popup.classList.remove('show');
     });
+
+    // Show info modal
+    infoButton.addEventListener('click', () => {
+        infoModal.classList.remove('hidden');
+        infoModal.classList.add('show');
+    });
+
+    // Close info modal
+    infoModalClose.addEventListener('click', () => {
+        infoModal.classList.remove('show');
+        setTimeout(() => {
+            infoModal.classList.add('hidden');
+        }, 300);
+    });
+
+    // Focus newly added item
+    function focusNewItem() {
+        const newItem = content.lastElementChild;
+        if (newItem) {
+            newItem.focus();
+        }
+    }
 });
