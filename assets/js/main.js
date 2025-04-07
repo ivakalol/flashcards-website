@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const addFolderButton = document.getElementById('add-folder');
     const addFlashcardButton = document.getElementById('add-flashcard');
+    const playFlashcardsButton = document.getElementById('play-flashcards');
     const content = document.getElementById('content');
     const breadcrumb = document.getElementById('breadcrumb');
     const contextMenu = document.getElementById('context-menu');
@@ -14,22 +15,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const dataModal = document.getElementById('data-modal');
     const dataModalTitle = document.getElementById('data-modal-title');
     const dataForm = document.getElementById('data-form');
-    const folderNameLabel = document.getElementById('folder-name-label');
+    
+    // Form elements
+    const folderFormSection = document.getElementById('folder-form-section');
+    const flashcardFormSection = document.getElementById('flashcard-form-section');
     const folderNameInput = document.getElementById('folder-name');
-    const flashcardTitleLabel = document.getElementById('flashcard-title-label');
     const flashcardTitleInput = document.getElementById('flashcard-title');
-    const flashcardDescriptionLabel = document.getElementById('flashcard-description-label');
     const flashcardDescriptionInput = document.getElementById('flashcard-description');
+    
     const dataModalSave = document.getElementById('data-modal-save');
     const dataModalClose = document.getElementById('data-modal-close');
+    
+    // Study mode elements
+    const studyModal = document.getElementById('study-modal');
+    const flashcardContainer = document.getElementById('flashcard-container');
+    const flashcardCard = document.querySelector('.flashcard-study-card');
+    const flashcardFront = document.getElementById('flashcard-front');
+    const flashcardBack = document.getElementById('flashcard-back');
+    const prevCardButton = document.getElementById('prev-card');
+    const nextCardButton = document.getElementById('next-card');
+    const cardCounter = document.getElementById('card-counter');
+    const studyModalClose = document.getElementById('study-modal-close');
 
-    let currentFolder = {
+    // Set the study modal to be wider
+    studyModal.classList.add('study-modal');
+
+    // Track current modal type
+    let currentModalType = null;
+
+    // Study mode variables
+    let studyCards = [];
+    let currentCardIndex = 0;
+
+    // Load data from localStorage or use default
+    let rootFolder = loadData() || {
         name: 'Home',
         subFolders: [],
         flashcards: [],
         parent: null
     };
 
+    let currentFolder = rootFolder;
     let currentItem = null;
 
     renderContent(currentFolder);
@@ -44,16 +70,34 @@ document.addEventListener('DOMContentLoaded', () => {
         openDataModal('flashcard');
     });
 
+    // Play flashcards functionality
+    playFlashcardsButton.addEventListener('click', () => {
+        startStudyMode();
+    });
+
     // Open data modal
     function openDataModal(type) {
-        dataModalTitle.textContent = `Enter ${type === 'folder' ? 'Folder Name' : 'Flashcard Details'}`;
-        folderNameLabel.classList.toggle('hidden', type !== 'folder');
-        folderNameInput.classList.toggle('hidden', type !== 'folder');
-        flashcardTitleLabel.classList.toggle('hidden', type !== 'flashcard');
-        flashcardTitleInput.classList.toggle('hidden', type !== 'flashcard');
-        flashcardDescriptionLabel.classList.toggle('hidden', type !== 'flashcard');
-        flashcardDescriptionInput.classList.toggle('hidden', type !== 'flashcard');
+        currentModalType = type;
+        
+        // Reset form
+        dataForm.reset();
+        
+        // Hide both form sections initially
+        folderFormSection.style.display = 'none';
+        flashcardFormSection.style.display = 'none';
+        
+        // Show only the appropriate section based on type
+        if (type === 'folder') {
+            dataModalTitle.textContent = 'Enter Folder Name';
+            folderFormSection.style.display = 'block';
+            folderNameInput.focus();
+        } else if (type === 'flashcard') {
+            dataModalTitle.textContent = 'Enter Flashcard Details';
+            flashcardFormSection.style.display = 'block';
+            flashcardTitleInput.focus();
+        }
 
+        // Show the modal
         dataModal.classList.remove('hidden');
         dataModal.classList.add('show');
     }
@@ -67,8 +111,12 @@ document.addEventListener('DOMContentLoaded', () => {
     dataForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        if (!folderNameInput.classList.contains('hidden')) {
-            const folderName = folderNameInput.value;
+        if (currentModalType === 'folder') {
+            const folderName = folderNameInput.value.trim();
+            if (!folderName) {
+                showPopup('Folder name cannot be empty');
+                return;
+            }
             if (currentFolder.subFolders.some(f => f.name === folderName)) {
                 showPopup('Folder name already exists');
                 return;
@@ -80,17 +128,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 parent: currentFolder
             };
             currentFolder.subFolders.push(folder);
+            saveData();
             renderContent(currentFolder);
             showPopup('Folder created successfully');
-        } else {
-            const flashcardTitle = flashcardTitleInput.value;
-            const flashcardDescription = flashcardDescriptionInput.value;
+        } else if (currentModalType === 'flashcard') {
+            const flashcardTitle = flashcardTitleInput.value.trim();
+            const flashcardDescription = flashcardDescriptionInput.value.trim();
+            
+            if (!flashcardTitle) {
+                showPopup('Flashcard title cannot be empty');
+                return;
+            }
+            
             const flashcard = {
                 title: flashcardTitle,
                 description: flashcardDescription,
                 parent: currentFolder
             };
             currentFolder.flashcards.push(flashcard);
+            saveData();
             renderContent(currentFolder);
             showPopup('Flashcard created successfully');
         }
@@ -104,6 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             dataModal.classList.add('hidden');
             dataForm.reset();
+            currentModalType = null;
         }, 300);
     }
 
@@ -204,7 +261,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // Enable or disable buttons based on content
         addFlashcardButton.disabled = false;
+        playFlashcardsButton.disabled = folder.flashcards.length === 0;
     }
 
     // Show context menu
@@ -230,6 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentItem.parent.flashcards.splice(index, 1);
                 }
             }
+            saveData();
             renderContent(currentFolder);
             showPopup('Item deleted successfully');
         });
@@ -280,7 +340,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 item.parent.flashcards.splice(index, 1);
             }
         }
+        saveData();
         renderContent(currentFolder);
+        showPopup('Item deleted successfully');
     }
 
     // Show popup message
@@ -290,13 +352,18 @@ document.addEventListener('DOMContentLoaded', () => {
         popup.classList.add('show');
         setTimeout(() => {
             popup.classList.remove('show');
-            popup.classList.add('hidden');
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 300);
         }, 2500);
     }
 
     // Close popup message
     popupClose.addEventListener('click', () => {
         popup.classList.remove('show');
+        setTimeout(() => {
+            popup.classList.add('hidden');
+        }, 300);
     });
 
     // Show info modal
@@ -319,5 +386,139 @@ document.addEventListener('DOMContentLoaded', () => {
         if (newItem) {
             newItem.focus();
         }
+    }
+
+    // Start study mode
+    function startStudyMode() {
+        if (currentFolder.flashcards.length === 0) {
+            showPopup('No flashcards to study in this folder');
+            return;
+        }
+
+        studyCards = [...currentFolder.flashcards];
+        currentCardIndex = 0;
+        
+        // Display the first card
+        displayCurrentCard();
+        
+        // Show the study modal
+        studyModal.classList.remove('hidden');
+        studyModal.classList.add('show');
+        
+        // Reset the card flip
+        flashcardCard.classList.remove('flipped');
+    }
+
+    // Display current card in study mode
+    function displayCurrentCard() {
+        const card = studyCards[currentCardIndex];
+        
+        // Update card content
+        flashcardFront.textContent = card.title;
+        flashcardBack.textContent = card.description;
+        
+        // Reset the card flip
+        flashcardCard.classList.remove('flipped');
+        
+        // Update counter
+        cardCounter.textContent = `Card ${currentCardIndex + 1} of ${studyCards.length}`;
+        
+        // Enable/disable prev/next buttons
+        prevCardButton.disabled = currentCardIndex === 0;
+        nextCardButton.disabled = currentCardIndex === studyCards.length - 1;
+    }
+
+    // Flip card when clicked
+    flashcardContainer.addEventListener('click', () => {
+        flashcardCard.classList.toggle('flipped');
+    });
+
+    // Previous card button
+    prevCardButton.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevent triggering the flashcard flip
+        if (currentCardIndex > 0) {
+            currentCardIndex--;
+            displayCurrentCard();
+        }
+    });
+
+    // Next card button
+    nextCardButton.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevent triggering the flashcard flip
+        if (currentCardIndex < studyCards.length - 1) {
+            currentCardIndex++;
+            displayCurrentCard();
+        }
+    });
+
+    // Close study modal
+    studyModalClose.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevent triggering the flashcard flip
+        studyModal.classList.remove('show');
+        setTimeout(() => {
+            studyModal.classList.add('hidden');
+        }, 300);
+    });
+
+    // Save data to localStorage
+    function saveData() {
+        // Create a deep copy of the data structure without circular references
+        const cleanData = cleanDataForStorage(rootFolder);
+        localStorage.setItem('flashcardsData', JSON.stringify(cleanData));
+    }
+
+    // Clean data for storage by removing parent references to avoid circular structure
+    function cleanDataForStorage(folder) {
+        const cleanFolder = {
+            name: folder.name,
+            subFolders: [],
+            flashcards: []
+        };
+        
+        // Copy and clean subfolders
+        folder.subFolders.forEach(subFolder => {
+            cleanFolder.subFolders.push(cleanDataForStorage(subFolder));
+        });
+        
+        // Copy flashcards (without parent reference)
+        folder.flashcards.forEach(flashcard => {
+            cleanFolder.flashcards.push({
+                title: flashcard.title,
+                description: flashcard.description
+            });
+        });
+        
+        return cleanFolder;
+    }
+
+    // Load data from localStorage
+    function loadData() {
+        const savedData = localStorage.getItem('flashcardsData');
+        if (!savedData) return null;
+        
+        try {
+            const parsedData = JSON.parse(savedData);
+            return restoreParentReferences(parsedData, null);
+        } catch (error) {
+            console.error('Failed to load data:', error);
+            return null;
+        }
+    }
+
+    // Restore parent references in the loaded data
+    function restoreParentReferences(folder, parent) {
+        folder.parent = parent;
+        
+        // Restore parent references for subfolders
+        folder.subFolders.forEach(subFolder => {
+            restoreParentReferences(subFolder, folder);
+        });
+        
+        // Restore parent references for flashcards
+        folder.flashcards.forEach(flashcard => {
+            flashcard.parent = folder;
+        });
+        
+        return folder;
     }
 });
