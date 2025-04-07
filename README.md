@@ -24,6 +24,26 @@ A feature-rich web application for creating, organizing, and studying flashcards
 
 Flashcards Website is a browser-based application designed to help users create and study flashcards efficiently. With support for hierarchical folder organization, users can create complex study structures that match their learning needs. The application works entirely in the browser using local storage, with no server required.
 
+## Project Structure
+
+```tree
+flashcards-website/
+├── index.html                 # Main HTML file - Entry point of the application
+├── css/                       # Styling directory
+│   ├── reset.css             # Normalizes browser default styles
+│   ├── style.css             # Main application styles and layouts
+│   └── themes.css            # Dark/light theme definitions and variables
+├── js/                       # JavaScript directory
+│   ├── main.js              # Application initialization and entry point
+│   ├── cardManager.js       # Handles flashcard CRUD operations and learning mode
+│   ├── folderManager.js     # Manages folder creation, deletion, and navigation
+│   ├── storage.js           # Local storage operations and data persistence
+│   ├── themeManager.js      # Manages theme switching and preferences
+│   ├── importExport.js      # Handles JSON import/export functionality
+│   └── uiController.js      # Manages UI interactions and DOM updates
+└── assets/                  # Static assets directory
+    └── favicon.ico          # Website favicon/icon
+
 ## Features
 
 - **Flashcard Management**: Create, edit, and delete flashcards with front and back content
