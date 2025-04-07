@@ -1,73 +1,33 @@
 # Flashcards Website
 
-[# flashcards-website](https://ivakalol.github.io/flashcards-website/)
+A web-based flashcard application with folder organization and dark/light theme support.
 
-A feature-rich web application for creating, organizing, and studying flashcards with support for nested folders, themes, and import/export functionality.
+🔗 **[Visit the Website](https://ivakalol.github.io/flashcards-website/)**
 
-## Table of Contents
+## Features at a Glance
 
-- [Overview](#overview)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Creating Flashcards](#creating-flashcards)
-  - [Organizing with Folders](#organizing-with-folders)
-  - [Learning Mode](#learning-mode)
-  - [Themes](#themes)
-  - [Import and Export](#import-and-export)
-- [Project Structure](#project-structure)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Overview
-
-Flashcards Website is a browser-based application designed to help users create and study flashcards efficiently. With support for hierarchical folder organization, users can create complex study structures that match their learning needs. The application works entirely in the browser using local storage, with no server required.
+- 📝 Create and study flashcards
+- 📁 Organize cards in folders
+- 🌓 Dark/Light theme
+- 💾 Import/Export functionality
+- 📱 Mobile-friendly
 
 ## Project Structure
 
 ```tree
 flashcards-website/
-├── index.html                 # Main HTML file - Entry point of the application
-├── css/                       # Styling directory
-│   ├── reset.css             # Normalizes browser default styles
-│   ├── style.css             # Main application styles and layouts
-│   └── themes.css            # Dark/light theme definitions and variables
-├── js/                       # JavaScript directory
-│   ├── main.js              # Application initialization and entry point
-│   ├── cardManager.js       # Handles flashcard CRUD operations and learning mode
-│   ├── folderManager.js     # Manages folder creation, deletion, and navigation
-│   ├── storage.js           # Local storage operations and data persistence
-│   ├── themeManager.js      # Manages theme switching and preferences
-│   ├── importExport.js      # Handles JSON import/export functionality
-│   └── uiController.js      # Manages UI interactions and DOM updates
-└── assets/                  # Static assets directory
-    └── favicon.ico          # Website favicon/icon
-
-## Features
-
-- **Flashcard Management**: Create, edit, and delete flashcards with front and back content
-- **Hierarchical Folders**: Create nested folders to organize your flashcards logically
-- **Path Navigation**: Windows-style breadcrumb path for easy navigation between folders
-- **Learning Mode**: Interactive study mode with card flipping and navigation
-- **Dark/Light Theme**: Toggle between dark and light themes for comfortable studying in any environment
-- **Import/Export**: Save and load your flashcard collection as JSON files for backup or sharing
-- **Responsive Design**: Works on desktop and mobile devices
-- **Offline Use**: No internet connection required after initial page load
-
-## Installation
-
-This is a client-side web application with no backend dependencies.
-
-### Option 1: Direct Download
-
-1. Download the ZIP file of this repository
-2. Extract the contents to a folder on your computer
-3. Open `index.html` in any modern web browser
-
-### Option 2: Clone the Repository
-
-```bash
-git clone https://github.com/ivakalol/flashcards-website.git
-cd flashcards-website
-# Open index.html in your browser
+├── index.html                 # Main application entry point
+├── css/
+│   ├── reset.css             # Browser style normalization
+│   ├── style.css             # Main styles and layouts
+│   └── themes.css            # Theme definitions
+├── js/
+│   ├── main.js              # App initialization
+│   ├── cardManager.js       # Flashcard operations
+│   ├── folderManager.js     # Folder management
+│   ├── storage.js           # Data persistence
+│   ├── themeManager.js      # Theme switching
+│   ├── importExport.js      # Import/Export features
+│   └── uiController.js      # UI interactions
+└── assets/
+    └── favicon.ico          # Website icon
