@@ -1,6 +1,5 @@
 # Flashcards Website
 
-![Flashcards Website Logo](assets/favicon.ico)
 [# flashcards-website](https://ivakalol.github.io/flashcards-website/)
 
 A feature-rich web application for creating, organizing, and studying flashcards with support for nested folders, themes, and import/export functionality.
