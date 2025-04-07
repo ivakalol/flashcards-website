@@ -1,0 +1,161 @@
+/* Theme variables */
+:root {
+    /* Light theme (default) */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7f7f7;
+    --bg-card: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --accent-color: #4b8bf4;
+    --border-color: #e0e0e0;
+    --button-bg: #4b8bf4;
+    --button-text: #ffffff;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --card-front-bg: #e9f2ff;
+    --card-back-bg: #f4f9ff;
+    --header-bg: #ffffff;
+    --footer-bg: #f7f7f7;
+    --folder-icon-bg: #e9f2ff;
+    --path-bg: #f7f7f7;
+    --input-bg: #ffffff;
+    --input-border: #cccccc;
+}
+
+/* Dark theme with improved contrast */
+[data-theme="dark"] {
+    /* Darker backgrounds for better contrast */
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+    --bg-card: #252525;
+    
+    /* Brighter text for better readability */
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    
+    /* More vibrant accent color */
+    --accent-color: #7cb5ff;
+    
+    /* More pronounced borders */
+    --border-color: #555555;
+    
+    /* Brighter button colors */
+    --button-bg: #1a73e8;
+    --button-text: #ffffff;
+    
+    --card-shadow: rgba(0, 0, 0, 0.5);
+    
+    /* More distinctive card backgrounds */
+    --card-front-bg: #2c3957;
+    --card-back-bg: #2a3d5a;
+    
+    /* Darker header and footer */
+    --header-bg: #0f0f0f;
+    --footer-bg: #0f0f0f;
+    
+    /* Folder styling */
+    --folder-icon-bg: #2c3957;
+    
+    /* Path navigation background */
+    --path-bg: #181818;
+    
+    /* Input fields */
+    --input-bg: #2a2a2a;
+    --input-border: #555555;
+}
+
+/* Apply theme variables */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+header, footer {
+    background-color: var(--header-bg);
+    color: var(--text-primary);
+}
+
+#path-navigation {
+    background-color: var(--path-bg);
+}
+
+section {
+    background-color: var(--bg-secondary);
+    box-shadow: 0 2px 8px var(--card-shadow);
+}
+
+button {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+}
+
+button:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.card-item {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+}
+
+.folder-item {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+}
+
+.folder-icon {
+    color: var(--accent-color);
+}
+
+.card-front {
+    background-color: var(--card-front-bg);
+    color: var(--text-primary);
+}
+
+.card-back {
+    background-color: var(--card-back-bg);
+    color: var(--text-primary);
+}
+
+textarea, input[type="text"] {
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--input-border);
+}
+
+textarea:focus, input[type="text"]:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(124, 181, 255, 0.25);
+}
+
+.path-item a {
+    color: var(--accent-color);
+}
+
+.empty-state {
+    color: var(--text-secondary);
+}
+
+/* Focus states for better accessibility */
+a:focus, button:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* Improved contrast for disabled buttons */
+button:disabled {
+    background-color: #555555;
+    color: #aaaaaa;
+    cursor: not-allowed;
+}
+
+/* Additional UI improvements for dark mode */
+[data-theme="dark"] .folder-content:hover {
+    background-color: #333333;
+}
+
+[data-theme="dark"] .card-item:hover,
+[data-theme="dark"] .folder-item:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
