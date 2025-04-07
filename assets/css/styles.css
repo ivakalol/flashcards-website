@@ -106,6 +106,10 @@ section {
     font-weight: bold;
 }
 
+.flashcard-description {
+    width: 70%;
+}
+
 .hidden {
     display: none;
 }

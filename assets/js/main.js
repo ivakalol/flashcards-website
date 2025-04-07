@@ -11,6 +11,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const infoButton = document.getElementById('info-button');
     const infoModal = document.getElementById('info-modal');
     const infoModalClose = document.getElementById('info-modal-close');
+    const dataModal = document.getElementById('data-modal');
+    const dataModalTitle = document.getElementById('data-modal-title');
+    const dataForm = document.getElementById('data-form');
+    const folderNameLabel = document.getElementById('folder-name-label');
+    const folderNameInput = document.getElementById('folder-name');
+    const flashcardTitleLabel = document.getElementById('flashcard-title-label');
+    const flashcardTitleInput = document.getElementById('flashcard-title');
+    const flashcardDescriptionLabel = document.getElementById('flashcard-description-label');
+    const flashcardDescriptionInput = document.getElementById('flashcard-description');
+    const dataModalSave = document.getElementById('data-modal-save');
+    const dataModalClose = document.getElementById('data-modal-close');
 
     let currentFolder = {
         name: 'Home',
@@ -25,12 +36,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add folder functionality
     addFolderButton.addEventListener('click', () => {
-        const folderName = prompt('Enter folder name:');
-        if (currentFolder.subFolders.some(f => f.name === folderName)) {
-            showPopup('Folder name already exists');
-            return;
-          }
-        else if (folderName) {
+        openDataModal('folder');
+    });
+
+    // Add flashcard functionality
+    addFlashcardButton.addEventListener('click', () => {
+        openDataModal('flashcard');
+    });
+
+    // Open data modal
+    function openDataModal(type) {
+        dataModalTitle.textContent = `Enter ${type === 'folder' ? 'Folder Name' : 'Flashcard Details'}`;
+        folderNameLabel.classList.toggle('hidden', type !== 'folder');
+        folderNameInput.classList.toggle('hidden', type !== 'folder');
+        flashcardTitleLabel.classList.toggle('hidden', type !== 'flashcard');
+        flashcardTitleInput.classList.toggle('hidden', type !== 'flashcard');
+        flashcardDescriptionLabel.classList.toggle('hidden', type !== 'flashcard');
+        flashcardDescriptionInput.classList.toggle('hidden', type !== 'flashcard');
+
+        dataModal.classList.remove('hidden');
+        dataModal.classList.add('show');
+    }
+
+    // Close data modal
+    dataModalClose.addEventListener('click', () => {
+        closeDataModal();
+    });
+
+    // Handle form submission
+    dataForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        if (!folderNameInput.classList.contains('hidden')) {
+            const folderName = folderNameInput.value;
+            if (currentFolder.subFolders.some(f => f.name === folderName)) {
+                showPopup('Folder name already exists');
+                return;
+            }
             const folder = {
                 name: folderName,
                 subFolders: [],
@@ -40,15 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
             currentFolder.subFolders.push(folder);
             renderContent(currentFolder);
             showPopup('Folder created successfully');
-            focusNewItem();
-        }
-    });
-
-    // Add flashcard functionality
-    addFlashcardButton.addEventListener('click', () => {
-        const flashcardTitle = prompt('Enter flashcard title:');
-        const flashcardDescription = prompt('Enter flashcard description:');
-        if (flashcardTitle && flashcardDescription) {
+        } else {
+            const flashcardTitle = flashcardTitleInput.value;
+            const flashcardDescription = flashcardDescriptionInput.value;
             const flashcard = {
                 title: flashcardTitle,
                 description: flashcardDescription,
@@ -57,9 +93,19 @@ document.addEventListener('DOMContentLoaded', () => {
             currentFolder.flashcards.push(flashcard);
             renderContent(currentFolder);
             showPopup('Flashcard created successfully');
-            focusNewItem();
         }
+
+        closeDataModal();
     });
+
+    // Close data modal function
+    function closeDataModal() {
+        dataModal.classList.remove('show');
+        setTimeout(() => {
+            dataModal.classList.add('hidden');
+            dataForm.reset();
+        }, 300);
+    }
 
     // Render content
     function renderContent(folder) {

@@ -67,6 +67,25 @@
             <button id="info-modal-close" class="modal-close">Close</button>
         </div>
     </div>
+    <!-- Folder/Flashcard Modal -->
+    <div id="data-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2 id="data-modal-title">Enter Details</h2>
+            <form id="data-form">
+                <label for="folder-name" id="folder-name-label" class="hidden">Folder Name:</label>
+                <input type="text" id="folder-name" class="hidden" placeholder="Enter folder name">
+                
+                <label for="flashcard-title" id="flashcard-title-label" class="hidden">Flashcard Title:</label>
+                <input type="text" id="flashcard-title" class="hidden" placeholder="Enter flashcard title">
+                
+                <label for="flashcard-description" id="flashcard-description-label" class="hidden">Flashcard Description:</label>
+                <textarea id="flashcard-description" class="hidden" placeholder="Enter flashcard description"></textarea>
+                
+                <button type="submit" id="data-modal-save" class="modal-save">Save</button>
+                <button type="button" id="data-modal-close" class="modal-close">Close</button>
+            </form>
+        </div>
+    </div>
     <script src="assets/js/DataBase.js"></script>
     <script src="assets/js/navigation.js"></script>
     <script src="assets/js/main.js"></script>
