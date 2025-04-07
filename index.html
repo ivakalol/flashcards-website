@@ -29,6 +29,7 @@
         <div class="action-buttons">
             <button id="add-folder"><i class="fas fa-folder-plus"></i> Add Folder</button>
             <button id="add-flashcard" disabled><i class="fas fa-plus"></i> Add Flashcard</button>
+            <button id="play-flashcards" disabled><i class="fas fa-play"></i> Play Flashcards</button>
         </div>
     </main>
     <footer>
@@ -64,6 +65,8 @@
             <p>This website was created to help users organize and study flashcards efficiently.</p>
             <p>Developed by Ivaka, the website offers functionality to create folders and flashcards, and easily navigate through them.</p>
             <p>Technologies used include HTML, CSS, and JavaScript.</p>
+            <p><strong>Last update:</strong> 2025-04-07 19:37:24</p>
+            <p><strong>Current user:</strong> ivakalol</p>
             <button id="info-modal-close" class="modal-close">Close</button>
         </div>
     </div>
@@ -72,18 +75,48 @@
         <div class="modal-content">
             <h2 id="data-modal-title">Enter Details</h2>
             <form id="data-form">
-                <label for="folder-name" id="folder-name-label" class="hidden">Folder Name:</label>
-                <input type="text" id="folder-name" class="hidden" placeholder="Enter folder name">
+                <!-- Folder Form Section -->
+                <div id="folder-form-section">
+                    <label for="folder-name" class="form-label">Folder Name:</label>
+                    <input type="text" id="folder-name" class="form-input" placeholder="Enter folder name">
+                </div>
                 
-                <label for="flashcard-title" id="flashcard-title-label" class="hidden">Flashcard Title:</label>
-                <input type="text" id="flashcard-title" class="hidden" placeholder="Enter flashcard title">
+                <!-- Flashcard Form Section -->
+                <div id="flashcard-form-section">
+                    <label for="flashcard-title" class="form-label">Flashcard Title:</label>
+                    <input type="text" id="flashcard-title" class="form-input" placeholder="Enter flashcard title">
+                    
+                    <label for="flashcard-description" class="form-label">Flashcard Description:</label>
+                    <textarea id="flashcard-description" class="form-textarea" placeholder="Enter flashcard description"></textarea>
+                </div>
                 
-                <label for="flashcard-description" id="flashcard-description-label" class="hidden">Flashcard Description:</label>
-                <textarea id="flashcard-description" class="hidden" placeholder="Enter flashcard description"></textarea>
-                
-                <button type="submit" id="data-modal-save" class="modal-save">Save</button>
-                <button type="button" id="data-modal-close" class="modal-close">Close</button>
+                <div class="form-buttons">
+                    <button type="submit" id="data-modal-save" class="modal-save">Save</button>
+                    <button type="button" id="data-modal-close" class="modal-close">Close</button>
+                </div>
             </form>
+        </div>
+    </div>
+    <!-- Study Mode Modal -->
+    <div id="study-modal" class="modal hidden">
+        <div class="modal-content study-content">
+            <h2>Study Mode</h2>
+            <div id="flashcard-container" class="flashcard-container">
+                <div class="flashcard-study-card">
+                    <div class="card-inner">
+                        <div id="flashcard-front" class="card-face card-front"></div>
+                        <div id="flashcard-back" class="card-face card-back"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="study-controls">
+                <button id="prev-card"><i class="fas fa-arrow-left"></i> Previous</button>
+                <button id="next-card">Next <i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div class="study-progress">
+                <span id="card-counter">Card 1 of 5</span>
+            </div>
+            <button id="study-modal-close" class="modal-close">Exit Study Mode</button>
         </div>
     </div>
     <script src="assets/js/DataBase.js"></script>
