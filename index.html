@@ -1,93 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Flashcards Website</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <style>
-        /* Make sure the content fits within the safe area on iPad */
-        body {
-            padding: env(safe-area-inset);
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 </head>
 <body>
     <header>
-        <h1>Flashcards Website</h1>
+        <h1>Flashcards</h1>
+        <div class="theme-toggle">
+            <label class="switch">
+                <input type="checkbox" id="theme-switch">
+                <span class="slider round"></span>
+            </label>
+            <span id="theme-label">Dark Mode</span>
+        </div>
     </header>
+
     <main>
-        <nav id="breadcrumb" role="navigation" aria-label="Breadcrumb navigation">
-            <!-- Breadcrumb navigation will be dynamically generated here -->
-        </nav>
-        <section id="content">
-            <!-- Folder structure and flashcards will be dynamically generated here -->
+        <section id="path-navigation">
+            <div class="folder-path" id="folderPath">
+                <!-- Breadcrumb navigation will be rendered here -->
+            </div>
         </section>
-        <!-- Move the buttons above the footer -->
-        <div class="action-buttons">
-            <button id="add-folder"><i class="fas fa-folder-plus"></i> Add Folder</button>
-            <button id="add-flashcard" disabled><i class="fas fa-plus"></i> Add Flashcard</button>
-        </div>
+
+        <section id="controls">
+            <div class="control-buttons">
+                <button id="addCardBtn">Add Card</button>
+                <button id="addFolderBtn">New Folder</button>
+                <button id="startLearningBtn">Start Learning</button>
+                <button id="resetBtn">Reset</button>
+            </div>
+            <div class="import-export">
+                <button id="exportBtn">Export Cards</button>
+                <button id="importBtn">Import Cards</button>
+                <input type="file" id="importFile" accept=".json" style="display: none;">
+            </div>
+        </section>
+
+        <section id="addCardSection">
+            <h2>Add New Card</h2>
+            <div class="form-group">
+                <label for="frontText">Front Side:</label>
+                <textarea id="frontText" placeholder="Enter the question or term..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="backText">Back Side:</label>
+                <textarea id="backText" placeholder="Enter the answer or definition..."></textarea>
+            </div>
+            <button id="saveCardBtn">Save Card</button>
+            <button id="cancelAddBtn">Cancel</button>
+        </section>
+
+        <section id="addFolderSection">
+            <h2>Create New Folder</h2>
+            <div class="form-group">
+                <label for="folderName">Folder Name:</label>
+                <input type="text" id="folderName" placeholder="Enter folder name">
+            </div>
+            <button id="saveFolderBtn">Create Folder</button>
+            <button id="cancelFolderBtn">Cancel</button>
+        </section>
+
+        <section id="learningSection">
+            <h2>Learning Mode</h2>
+            <div id="flashcard">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p id="cardFrontText"></p>
+                    </div>
+                    <div class="card-back">
+                        <p id="cardBackText"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="learning-controls">
+                <button id="prevCardBtn">Previous</button>
+                <button id="flipCardBtn">Flip Card</button>
+                <button id="nextCardBtn">Next</button>
+            </div>
+            <div class="progress-info">
+                <span id="cardProgress">Card 0 of 0</span>
+            </div>
+            <button id="exitLearningBtn">Exit Learning Mode</button>
+        </section>
+
+        <section id="folderContentSection">
+            <div class="folder-section">
+                <h2>Folders</h2>
+                <div id="folderList" class="folder-list">
+                    <!-- Folders will be displayed here -->
+                </div>
+            </div>
+            
+            <div class="card-section">
+                <h2>Cards</h2>
+                <div id="cardList" class="card-list">
+                    <!-- Cards will be displayed here -->
+                </div>
+            </div>
+        </section>
     </main>
+
     <footer>
-        <div class="footer-buttons">
-            <button id="settings-button"><i class="fas fa-cog"></i> Settings</button>
-            <button id="info-button"><i class="fas fa-info-circle"></i> Info</button>
-        </div>
-        <div class="footer-text">
-            © 2023 Flashcards Website made by Ivaka
-        </div>
+        <p>&copy; 2025 Flashcards. Created by <a href="https://github.com/ivakalol">ivakalol</a></p>
     </footer>
-    <aside id="context-menu" class="hidden" role="menu">
-        <button id="delete-item" role="menuitem">Delete</button>
-    </aside>
-    <div id="popup" class="popup hidden">
-        <div class="popup-content">
-            <span class="popup-message"></span>
-            <button id="popup-close" class="popup-close">Close</button>
-        </div>
-    </div>
-    <div id="modal" class="modal hidden">
-        <div class="modal-content">
-            <h2 id="modal-title">Modal Title</h2>
-            <input type="text" id="modal-input" placeholder="Enter value">
-            <button id="modal-save" class="modal-save">Save</button>
-            <button id="modal-close" class="modal-close">Close</button>
-        </div>
-    </div>
-    <!-- Info Modal -->
-    <div id="info-modal" class="modal hidden">
-        <div class="modal-content">
-            <h2>About Flashcards Website</h2>
-            <p>This website was created to help users organize and study flashcards efficiently.</p>
-            <p>Developed by Ivaka, the website offers functionality to create folders and flashcards, and easily navigate through them.</p>
-            <p>Technologies used include HTML, CSS, and JavaScript.</p>
-            <button id="info-modal-close" class="modal-close">Close</button>
-        </div>
-    </div>
-    <!-- Folder/Flashcard Modal -->
-    <div id="data-modal" class="modal hidden">
-        <div class="modal-content">
-            <h2 id="data-modal-title">Enter Details</h2>
-            <form id="data-form">
-                <label for="folder-name" id="folder-name-label" class="hidden">Folder Name:</label>
-                <input type="text" id="folder-name" class="hidden" placeholder="Enter folder name">
-                
-                <label for="flashcard-title" id="flashcard-title-label" class="hidden">Flashcard Title:</label>
-                <input type="text" id="flashcard-title" class="hidden" placeholder="Enter flashcard title">
-                
-                <label for="flashcard-description" id="flashcard-description-label" class="hidden">Flashcard Description:</label>
-                <textarea id="flashcard-description" class="hidden" placeholder="Enter flashcard description"></textarea>
-                
-                <button type="submit" id="data-modal-save" class="modal-save">Save</button>
-                <button type="button" id="data-modal-close" class="modal-close">Close</button>
-            </form>
-        </div>
-    </div>
-    <script src="assets/js/DataBase.js"></script>
-    <script src="assets/js/navigation.js"></script>
-    <script src="assets/js/main.js"></script>
+
+    <script src="js/storage.js"></script>
+    <script src="js/cardManager.js"></script>
+    <script src="js/themeManager.js"></script>
+    <script src="js/folderManager.js"></script>
+    <script src="js/importExport.js"></script>
+    <script src="js/uiController.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

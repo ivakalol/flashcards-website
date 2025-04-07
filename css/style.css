@@ -1,0 +1,414 @@
+/* Main styling */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: all 0.3s ease;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto;
+}
+
+section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    margin-bottom: 1rem;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    transition: all 0.2s;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+textarea, input[type="text"] {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+/* Path navigation */
+#path-navigation {
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+.folder-path {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+.path-item {
+    display: inline-block;
+}
+
+.path-item a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.path-item a:hover {
+    text-decoration: underline;
+}
+
+.path-separator {
+    margin: 0 0.5rem;
+    color: var(--text-secondary);
+}
+
+/* Controls section */
+#controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* Folders section */
+#folderContentSection {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    #folderContentSection {
+        grid-template-columns: minmax(200px, 1fr) 3fr;
+    }
+}
+
+.folder-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.folder-item {
+    border-radius: 8px;
+    padding: 0.75rem;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-card);
+}
+
+.folder-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.folder-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.25rem;
+}
+
+.folder-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem 0;
+}
+
+.folder-icon {
+    font-size: 1.25rem;
+}
+
+.folder-name {
+    font-weight: 500;
+    flex-grow: 1;
+}
+
+/* Card list styling */
+.card-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.card-item {
+    border-radius: 8px;
+    padding: 1rem;
+    position: relative;
+    min-height: 150px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    background-color: var(--bg-card);
+}
+
+.card-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.card-content {
+    margin-top: 2rem;
+}
+
+.card-front-text {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.card-back-text {
+    font-style: italic;
+}
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 2rem 0;
+}
+
+/* Forms */
+#addCardSection, #addFolderSection {
+    display: none;
+}
+
+/* Learning section */
+#learningSection {
+    display: none;
+}
+
+#flashcard {
+    perspective: 1000px;
+    height: 300px;
+    margin: 2rem auto;
+    width: 100%;
+    max-width: 500px;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.card-inner.flipped {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+
+.learning-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.progress-info {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+#exitLearningBtn {
+    display: block;
+    margin: 1.5rem auto;
+}
+
+/* Theme toggle switch */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Action icons */
+.action-icon {
+    font-size: 1rem;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    #controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .learning-controls {
+        flex-wrap: wrap;
+    }
+}
+
+/* Delete icon styling */
+.delete-icon {
+    color: #ff3333;
+}
+
+/* Folder action buttons styling */
+.folder-actions button, .card-actions button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    margin: 0 2px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.folder-actions button:hover, .card-actions button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+}
+
+[data-theme="dark"] .folder-actions button:hover, 
+[data-theme="dark"] .card-actions button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.edit-folder-btn {
+    color: var(--accent-color);
+}
+
+.delete-folder-btn {
+    color: #ff3333;
+}
