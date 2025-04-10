@@ -1,0 +1,58 @@
+/* Theme CSS for Flashcards Website */
+
+/* Light Theme (default) */
+:root {
+    --background-color: #f5f5f5;
+    --text-color: #333333;
+    --card-bg: #ffffff;
+    --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --header-bg: #4a6fa5;
+    --header-text: #ffffff;
+    --button-primary: #4a6fa5;
+    --button-text: #ffffff;
+    --card-border: 1px solid #dddddd;
+    --known-card: #e6f7e9;
+    --known-button: #4caf50;
+  }
+  
+  /* Dark Theme */
+  .dark-mode {
+    --background-color: #1f2937;
+    --text-color: #e5e7eb;
+    --card-bg: #374151;
+    --card-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    --header-bg: #111827;
+    --header-text: #ffffff;
+    --button-primary: #3b82f6;
+    --button-text: #ffffff;
+    --card-border: 1px solid #4b5563;
+    --known-card: #064e3b;
+    --known-button: #10b981;
+  }
+  
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .theme-toggle {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 2px solid var(--button-text);
+    color: var(--button-text);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Add focus styles for better accessibility */
+  :focus {
+    outline: 2px solid var(--button-primary);
+    outline-offset: 2px;
+  }
