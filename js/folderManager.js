@@ -175,7 +175,7 @@ const FolderManager = {
                     </div>
                     <div class="folder-content" data-id="${folder.id}">
                         <span class="folder-icon">📁</span>
-                        <span class="folder-name">${this.escapeHtml(folder.name)}</span>
+                        <span class="folder-name" title="${this.escapeHtml(folder.name)}">${this.escapeHtml(folder.name)}</span>
                     </div>
                 `;
                 

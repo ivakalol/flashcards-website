@@ -1,9 +1,9 @@
 /**
- * UI Controller for managing the user interface
+ * UI Controller for handling user interface interactions
  */
 const UIController = {
     /**
-     * Initialize the UI
+     * Initialize the UI controller
      */
     init() {
         this.initElements();
@@ -36,6 +36,7 @@ const UIController = {
         this.resetBtn = document.getElementById('resetBtn');
         
         // Learning mode elements
+        this.flashcard = document.getElementById('flashcard');
         this.cardFrontText = document.getElementById('cardFrontText');
         this.cardBackText = document.getElementById('cardBackText');
         this.cardInner = document.querySelector('.card-inner');
@@ -95,8 +96,8 @@ const UIController = {
                         </button>
                     </div>
                     <div class="card-content">
-                        <div class="card-front-text">${this.escapeHtml(card.front)}</div>
-                        <div class="card-back-text">${this.escapeHtml(card.back)}</div>
+                        <div class="card-front-text" title="${this.escapeHtml(card.front)}">${this.escapeHtml(card.front)}</div>
+                        <div class="card-back-text" title="${this.escapeHtml(card.back)}">${this.escapeHtml(card.back)}</div>
                     </div>
                 `;
                 
@@ -213,6 +214,7 @@ const UIController = {
         
         CardManager.resetToFirst();
         this.learningSection.style.display = 'block';
+        this.folderContentSection.style.display = 'none';
         this.addCardSection.style.display = 'none';
         this.addFolderSection.style.display = 'none';
         this.updateCardDisplay();
@@ -223,6 +225,16 @@ const UIController = {
      */
     exitLearningMode() {
         this.learningSection.style.display = 'none';
+        this.folderContentSection.style.display = 'grid';
+    },
+    
+    /**
+     * Check if the card content is long and needs adaptive sizing
+     * @param {string} text - The text to check
+     * @returns {boolean} True if the text is longer than a threshold
+     */
+    isLongContent(text) {
+        return text.length > 300 || text.split('\n').length > 8;
     },
     
     /**
@@ -236,11 +248,19 @@ const UIController = {
             return;
         }
         
+        // Set the text content
         this.cardFrontText.textContent = currentCard.front;
         this.cardBackText.textContent = currentCard.back;
         
         // Reset card flip state
         this.cardInner.classList.remove('flipped');
+        
+        // Check if any side has a lot of content, and adjust card size accordingly
+        if (this.isLongContent(currentCard.front) || this.isLongContent(currentCard.back)) {
+            this.flashcard.classList.add('large');
+        } else {
+            this.flashcard.classList.remove('large');
+        }
         
         // Update progress display
         this.cardProgress.textContent = `Card ${CardManager.getCurrentCardNumber()} of ${CardManager.getCardCount()}`;
@@ -248,6 +268,12 @@ const UIController = {
         // Update button states
         this.prevCardBtn.disabled = CardManager.currentCardIndex === 0;
         this.nextCardBtn.disabled = CardManager.currentCardIndex === CardManager.getCardCount() - 1;
+        
+        // Force a redraw to ensure card content is visible
+        this.cardInner.style.display = 'none';
+        setTimeout(() => {
+            this.cardInner.style.display = '';
+        }, 10);
     },
     
     /**

@@ -176,6 +176,10 @@ textarea {
 .folder-name {
     font-weight: 500;
     flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
 }
 
 /* Card list styling */
@@ -215,10 +219,23 @@ textarea {
 .card-front-text {
     font-weight: bold;
     margin-bottom: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;   
+    -webkit-box-orient: vertical;
 }
 
 .card-back-text {
+    
     font-style: italic;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;   
+    -webkit-box-orient: vertical;
 }
 
 /* Empty state */
@@ -240,41 +257,60 @@ textarea {
 
 #flashcard {
     perspective: 1000px;
-    height: 300px;
+    height: 400px; /* Increased from 300px to 400px */
     margin: 2rem auto;
     width: 100%;
-    max-width: 500px;
+    max-width: 600px; /* Increased from 500px to 600px */
+    position: relative;
+}
+
+#flashcard.large {
+    height: auto;
+    min-height: 400px; /* Increased from 300px to 400px */
+    max-height: 700px; /* Increased from 600px to 700px */
 }
 
 .card-inner {
     position: relative;
     width: 100%;
     height: 100%;
-    text-align: center;
     transition: transform 0.6s;
     transform-style: preserve-3d;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-}
-
-.card-inner.flipped {
-    transform: rotateY(180deg);
+    background-color: var(--bg-card);
 }
 
 .card-front, .card-back {
     position: absolute;
     width: 100%;
     height: 100%;
+    min-height: 400px;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding: 2.5rem; /* Increased from 2rem to 2.5rem */
     border-radius: 10px;
+    overflow-y: auto;
+    background-color: var(--bg-card);
+}
+
+#cardFrontText, #cardBackText {
+    width: 100%;
+    height: auto;
+    word-wrap: break-word;
+    text-align: center;
+    font-size: 1.1rem; /* Added to increase text size */
+    line-height: 1.5; /* Added for better readability */
 }
 
 .card-back {
+    transform: rotateY(180deg);
+}
+
+.card-inner.flipped {
     transform: rotateY(180deg);
 }
 
@@ -377,6 +413,16 @@ input:checked + .slider:before {
     .learning-controls {
         flex-wrap: wrap;
     }
+    
+    #flashcard {
+        height: 350px;
+        max-width: 100%;
+    }
+    
+    #flashcard.large {
+        min-height: 350px;
+        max-height: 600px;
+    }
 }
 
 /* Delete icon styling */
@@ -411,4 +457,48 @@ input:checked + .slider:before {
 
 .delete-folder-btn {
     color: #ff3333;
+}
+
+/* Learning mode control buttons */
+.learning-controls button {
+    padding: 0.75rem 1.5rem; /* Increased button size */
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+#exitLearningBtn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
