@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+</head>
+<body>
+    <header>
+        <h1>Flashcards</h1>
+        <div class="theme-toggle">
+            <label class="switch">
+                <input type="checkbox" id="theme-switch">
+                <span class="slider round"></span>
+            </label>
+            <span id="theme-label">Dark Mode</span>
+        </div>
+    </header>
+
+    <main>
+        <section id="path-navigation">
+            <div class="folder-path" id="folderPath">
+                <!-- Breadcrumb navigation will be rendered here -->
+            </div>
+        </section>
+
+        <section id="controls">
+            <div class="control-buttons">
+                <button id="addCardBtn">Add Card</button>
+                <button id="addFolderBtn">New Folder</button>
+                <button id="startLearningBtn">Start Learning</button>
+                <button id="resetBtn">Reset</button>
+            </div>
+            <div class="import-export">
+                <button id="exportBtn">Export Cards</button>
+                <button id="importBtn">Import Cards</button>
+                <input type="file" id="importFile" accept=".json" style="display: none;">
+            </div>
+        </section>
+
+        <section id="addCardSection">
+            <h2>Add New Card</h2>
+            <div class="form-group">
+                <label for="frontText">Front Side:</label>
+                <textarea id="frontText" placeholder="Enter the question or term..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="backText">Back Side:</label>
+                <textarea id="backText" placeholder="Enter the answer or definition..."></textarea>
+            </div>
+            <button id="saveCardBtn">Save Card</button>
+            <button id="cancelAddBtn">Cancel</button>
+        </section>
+
+        <section id="addFolderSection">
+            <h2>Create New Folder</h2>
+            <div class="form-group">
+                <label for="folderName">Folder Name:</label>
+                <input type="text" id="folderName" placeholder="Enter folder name">
+            </div>
+            <button id="saveFolderBtn">Create Folder</button>
+            <button id="cancelFolderBtn">Cancel</button>
+        </section>
+
+        <section id="learningSection">
+            <h2>Learning Mode</h2>
+            <div id="flashcard">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <p id="cardFrontText"></p>
+                    </div>
+                    <div class="card-back">
+                        <p id="cardBackText"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="learning-controls">
+                <button id="prevCardBtn">Previous</button>
+                <button id="flipCardBtn">Flip Card</button>
+                <button id="nextCardBtn">Next</button>
+            </div>
+            <div class="progress-info">
+                <span id="cardProgress">Card 0 of 0</span>
+            </div>
+            <button id="exitLearningBtn">Exit Learning Mode</button>
+        </section>
+
+        <section id="folderContentSection">
+            <div class="folder-section">
+                <h2>Folders</h2>
+                <div id="folderList" class="folder-list">
+                    <!-- Folders will be displayed here -->
+                </div>
+            </div>
+            
+            <div class="card-section">
+                <h2>Cards</h2>
+                <div id="cardList" class="card-list">
+                    <!-- Cards will be displayed here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Flashcards. Created by <a href="https://github.com/ivakalol">ivakalol</a></p>
+    </footer>
+
+    <script src="js/storage.js"></script>
+    <script src="js/cardManager.js"></script>
+    <script src="js/themeManager.js"></script>
+    <script src="js/folderManager.js"></script>
+    <script src="js/importExport.js"></script>
+    <script src="js/uiController.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
